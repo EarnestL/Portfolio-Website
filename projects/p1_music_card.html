@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+  <head>
+    <title>Earnest Lin - Single-Tone Music Card</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="../assets/js/STLLoader.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+  </head>
+  <body class="is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper">
+      <!-- Main -->
+      <div id="main">
+        <div class="inner">
+          <!-- Header -->
+          <header id="header">
+            <a href="../index.html" class="logo">Earnest Lin's Portfolio</a>
+            <ul class="icons">
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/earnestlin/"
+                  class="icon brands fa-linkedin-in"
+                  target="_blank"
+                  ><span class="label">linkedin</span></a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/EarnestL"
+                  class="icon brands fa-github"
+                  target="_blank"
+                  ><span class="label">Github</span></a
+                >
+              </li>
+            </ul>
+          </header>
+
+          <!-- Content -->
+          <section>
+            <header class="main">
+              <h1>Single-Tone Music Card</h1>
+            </header>
+            <div class="text-box">
+            
+              <b>Objective:</b>
+              This project is the completed with the intent of introducing
+              myself to microcontrollers. I have used <a href="#sources">PIC16F627A</a> from
+              microchip for this purpose as it has all the basic features I
+              would need.<br>
+            
+            
+              
+                The end result would be a music player that produces at single
+                tones with correspondingly flashing LEDs.
+              
+            </div>
+
+            <hr class="major" />
+    
+            <h2>Preliminaries</h2>
+            <p>
+              I began by familiarizing myself with <a href="#sources">PIC16F627A</a> by going
+              through its documentation. I mainly focused on what the microcontroller is capable of and
+              eventually settled on PWM to be the main tool. The project has not
+              been ideated at this point. I decided that it would be easier to
+              determine what tool I'd like to use beforehand as the main 
+              objective is simply to learn about microcontrollers.
+            </p>
+            <p>
+              <b>Pulse Width Modulation (PWM)</b> is a technique that generates
+              signal with variable with pulses. Essentially, it is a digital
+              signal that turns on & off at a specifed interval to emulate that
+              of analog. With a use of a transistor, this technique can be used
+              to modify a DC voltage.
+            </p>
+            <p>
+              <b>Active Piezoelectric Buzzer</b> produces sound by using
+              piezoelectric materials that deforms when alternating voltage is
+              applied across them. As the material vibrates rapidly, a sound is
+              produced. Active peizo buzzer has a build-in oscilitor, so it is
+              able to receive DC voltage.
+            </p>
+
+            <hr class="major" />
+
+            <h2>Prototype</h2>
+
+            <p>
+              Now that I can recognize what pins of the microcontroller I can
+              use, a rough schematic can be sketched out.
+            </p>
+
+            <span class="image main"
+              ><img src="https://raw.githubusercontent.com/EarnestL/Music_card/main/Files/Schematic/schm_draft1.jpg" alt=""
+            /></span>
+
+            <p>
+              <b>Flashing LEDS:</b> Three transistors are used. One will be used
+              as a switch to enable/disable the flashing LEDs function as we
+              would only like them to be flashing while the music is playing.
+              While no sound is being produced, the LEDs will be entirely turned
+              off. The other two are used to 'flash' the LEDs alternately
+              alongside each shift in the produced tone.
+            </p>
+
+            <p>
+              <b>Piezoelectric Buzzer:</b> The buzzer is connected to a
+              transistor that is controlled by the generated PWM signal from the
+              microcontroller. The pitch of produced music notes corresponds to
+              the variable voltage across the buzzer. Therefore, the pitch can
+              be shifted accordingly by modifying the period of the PWM signal.
+              Each song (a sequence of frequencies with varying time interval)
+              will have to be incorporated within the microcontroller.
+            </p>
+
+            <p>
+              <b
+                >Code for the microcontroller can be found
+                <a
+                  href="#sources"
+                  >here</a
+                > as "Project_main.c".</b
+              >
+            </p>
+
+            <h3><u>Demo</u></h3>
+            <video width="100%" height=auto controls>
+              <source src="https://github.com/EarnestL/Music_card/raw/main/Files/Demo/demo_pro1.mp4" type="video/mp4" />
+            </video>
+     
+
+            <hr class="major" />
+
+            <h2>Conversion to PCB</h2>
+
+            <p>
+              In order to wrap up the project neatly, I have created a pcb with
+              the designed circuit. Below is the finalized circuit which was
+              sent to a fabricator. Not many major changes were made to the
+              rough schematic. (Only the transistors were replaced by a quad
+              transistor array.)
+            </p>
+
+            <span class="image main"
+              ><img src="https://raw.githubusercontent.com/EarnestL/Music_card/main/Files/Schematic/schm_final.jpg" alt=""
+            /></span>
+
+            <p>
+              <b
+                >The gerber files can be found
+                <a
+                  href="#sources"
+                  >here</a
+                >.</b
+              >
+            </p>
+
+            <hr class="major" />
+            <h2>Final Demo</h2>
+
+
+
+            
+
+
+
+            <div id="halfvid">
+              <div id="video-container">
+                <!-- Place your video element here -->
+                <video controls width="100%" height=auto>
+                  <source src="https://github.com/EarnestL/Music_card/raw/main/Files/Demo/demo_pcb.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div id="text-container" width:50%>
+                <div class="text-box">
+                  <h3 id="sources">Sources</h3>
+                <b><a
+                  href="https://github.com/EarnestL/Music_card/tree/main"
+                  target="_blank"
+                  >Repository</a
+                ></b><br>
+                <b><a
+                  href="https://github.com/EarnestL/Music_card/blob/main/Files/Datasheet/PIC16F627A.pdf"
+                  target="_blank"
+                  >PIC16F627A Datasheet</a
+                ></b><br>
+                <b><a
+                  href="https://github.com/EarnestL/Music_card/blob/main/main.c"
+                  target="_blank"
+                  >Project_main.c</a
+                ></b><br>
+                <b><a
+                  href="https://github.com/EarnestL/Music_card/tree/main/Files/KiCAD%20files/Gerber"
+                  target="_blank"
+                  >PCB Gerber Files</a
+                ></b></div>
+              </div>
+            </div>
+
+            <p>
+              <i
+                >*A few LEDs appeared to have been short-circuited due to
+                soldering error. No voltage difference is being read across the
+                component.*
+              </i>
+            </p>
+
+            <hr class="major" />
+            
+            
+
+          <div class="demo1">
+            <ul class="pagination">
+              <li><span class="button disabled">Prev</span></li>
+              <li><a href="p2_record_player.html" class="button">Next</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div id="sidebar">
+        <div class="inner">
+          <!-- Menu -->
+          <nav id="menu">
+            <header class="major">
+              <h2>Menu</h2>
+            </header>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li>
+                <span class="opener">Projects</span>
+                <ul>
+                  <li>
+                    <a href="../projects/p1_music_card.html">1. Single-Tone Music Card</a>
+                  </li>
+                  <li><a href="../projects/p2_record_player.html">2. Record Player</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <!--Contact Me-->
+          <section>
+            <header class="major">
+              <h2>Contact me!</h2>
+            </header>
+            <ul class="contact">
+              <li class="icon solid fa-envelope">earnest.lin@outlook.com</li>
+              <li class="icon solid fa-location-arrow">Berkeley, California</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/browser.min.js"></script>
+    <script src="../assets/js/breakpoints.min.js"></script>
+    <script src="../assets/js/util.js"></script>
+    <script src="../assets/js/main.js"></script>
+  </body>
+</html>

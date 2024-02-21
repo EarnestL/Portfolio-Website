@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+  <head>
+    <title>Earnest Lin - Record Player</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+  </head>
+  <body class="is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper">
+      <!-- Main -->
+      <div id="main">
+        <div class="inner">
+          <!-- Header -->
+          <header id="header">
+            <a href="../index.html" class="logo">Earnest Lin's Portfolio</a>
+            <ul class="icons">
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/earnestlin/"
+                  class="icon brands fa-linkedin-in"
+                  target="_blank"
+                  ><span class="label">linkedin</span></a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/EarnestL"
+                  class="icon brands fa-github"
+                  target="_blank"
+                  ><span class="label">Github</span></a
+                >
+              </li>
+            </ul>
+          </header>
+
+          <!-- Content -->
+          <section>
+            <header class="main">
+              <h1>Record Player</h1>
+            </header>
+            <div class="text-box">
+      
+            
+              <b>Objective:</b> This build incorporates
+              <a href="#sources">PIC16F627A</a>,
+              <a href="#sources">DFplayer module</a>, and a low-rpm motor to
+              emulate the aesthetics of a record player. The songs are stored in
+              mp3 format on an sd card, and the DF player module is responsible
+              for the retreival and the management of the songs. The
+              microcontroller communicates with the DF player through
+              <b>UART</b>, and executes all other functions of the device.
+            </div>
+            </span>
+            <hr class="major" />
+            <h2>Preliminaries</h2>
+
+            <p>
+              <b>Universal Asynchronous Receiver/Transmitter (UART)</b> is a
+              serial protocol that uses 2 wires as a receiver and a transmitter.
+              Each transmission has a length of 7-9 bits: start bit of zero,
+              data bits, an optional parity bit, and a stop bit of 1. The parity
+              bit is incorporated when accuracy of data is crucial. The size of
+              the entire UART frame varies for different devices; in particulat,
+              our DFplayer module utilizes 8-9 bytes of data.
+            </p>
+            <p>
+              <b>A voltage comparator</b> is an integrated circuit that compares
+              two voltage inputs: V<sub>in</sub> and V<sub>ref</sub> . When
+              V<sub>in</sub> > V<sub>ref</sub> , the output of the comparator
+              will rail to the V<sub>DD</sub> of the device. Otherwise, the
+              output will rail to its virtual ground, V<sub>SS</sub> .
+              <b>PIC16F627A</b> possesses two comparators, which we will be
+              utilizing one of for this project.
+            </p>
+
+            <hr class="major" />
+
+            <h2>Prototype</h2>
+            <div id="half" class="container" >
+              <div id="half" class="text"> 
+                <p>Three major elements can be broken down for our project: <b>Platter</b> (the spinning top-plate of the record),
+                    <b>Tone-arm</b>, and the <b>Speaker</b>.<br><br>
+                
+                  The <b>platter</b> will be emulated with a motor that runs when music is played and stops otherwise.
+                  Typical record players spins at 45rpm, and the DC motor in spins at 100rmp at 6V. Given 5V power supply,
+                  PWM signal with a 54% duty cycle (provided by the microcontroller) will bring the motor's rpm to the desired
+                  45rpm.<br>
+                  Similar to the actual record player, the <b>tone-arm</b> will primarily be used as a hard stop for the playing of the songs.
+                  The base of the arm will be a rotary potentiometer and be connected to the internal comparator of the microcontroller.
+                  V<sub>ref</sub> can be configured so that when the arm is out of the record's range, V<sub>out</sub> rails to ground.<br>
+                  The <b>speaker</b> will be connected to the DF player module, which will be communicated through UART.
+                </p>
+              </div>
+
+              <div id="half" class="image"><span class="image object">
+                <img src="https://github.com/EarnestL/Record_player/blob/main/Files/Img/img1.jpg?raw=true" alt="" />
+              </span></div>
+            </div>       
+
+            <p>Below is a draft of the schematic.</p>
+
+            <span class="image main"
+            ><img src="https://github.com/EarnestL/Record_player/blob/main/Files/Schematic/schm1_record_player.jpg?raw=true" alt=""
+            /></span>
+
+            <h3><u>Pins Description</u></h3>
+            <p>
+             <b># <span style="color:#e49309">1, 2, 3, 4, & 5</span></b> are buttons that performs individual tasks: play song, pause song, song toggle, vol up, and vol down.
+             <br><b># <span style="color:#2b8467">8 & 9</span></b> are those of the internal comparator: Pin 8 as V<sub>ref</sub> and pin 9 as V<sub>out</sub> .
+             <br><b># <span style="color:#0053ff">10</span></b> outputs pwm signal that is responsible for controlling the speed of the motor.
+             <br><b># <span style="color:#ff4b00">13, 14 & 15</span></b> LEDs act as an indicator for current song selection.
+             <br><b># <span style="color:#9e085f">17 & 18</span></b> are data pins of the DF player module. Pin 17 is the controller's UART TX pin.
+              Pin 18 is set high by the DF player module when a song is playing, and low otherwise.
+               We use this to prevent overlapping "play" input. Controller's RX pin is not used since we are not expecting any fedback from the module.
+            </p>
+            <p><b>
+              Code for the microcontroller can be found <a href="#sources">here</a> as "Project_main.c".
+            </b></p>
+            <h3><u>Demo</u></h3>
+            <video width="100%" height=auto controls>
+              <source src="https://github.com/EarnestL/Record_player/raw/main/Files/Demo/demo1.mp4" type="video/mp4" />
+            </video>
+            <hr class="major" />
+
+            <h2>Practical Schematic Revision</h2>
+            <div style="text-align: center; font-size: 36px;">In Progress...</div>
+
+            <hr class="major">
+            <div class="text-box" style="width:30%">
+              
+            <h3 id="sources">Sources</h3>
+            <b><a href="https://github.com/EarnestL/Record_player" target ="_blank">Repository</a></b><br>
+            <b><a href="https://github.com/EarnestL/Record_player/blob/main/Files/Datasheet/PIC16F627A.pdf" target="_blank">PIC16F627A Datasheet</a></b><br>
+            <b><a href="https://github.com/EarnestL/Record_player/blob/main/Files/Datasheet/DF%20Player%20mini%20module%20datasheet.pdf" target="_blank">DFPlayer Datasheet</a></b><br>
+            <b><a href="https://github.com/EarnestL/Record_player/blob/main/main.c" target="_blank">Project_main.c</a></b><br>
+          </section>
+          <div class="demo1">
+            <ul class="pagination">
+              <li><a href="p1_music_card.html" class="button">Prev</a></li>
+              <li><span class="button disabled">Next</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div id="sidebar">
+        <div class="inner">
+          <!-- Menu -->
+          <nav id="menu">
+            <header class="major">
+              <h2>Menu</h2>
+            </header>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li>
+                <span class="opener">Projects</span>
+                <ul>
+                  <li>
+                    <a href="../projects/p1_music_card.html"
+                      >1. Single-Tone Music Card</a
+                    >
+                  </li>
+                  <li>
+                    <a href="../projects/p2_record_player.html"
+                      >2. Record Player</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <!--Contact Me-->
+          <section>
+            <header class="major">
+              <h2>Contact me!</h2>
+            </header>
+            <ul class="contact">
+              <li class="icon solid fa-envelope">earnest.lin@outlook.com</li>
+              <li class="icon solid fa-location-arrow">Berkeley, California</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/browser.min.js"></script>
+    <script src="../assets/js/breakpoints.min.js"></script>
+    <script src="../assets/js/util.js"></script>
+    <script src="../assets/js/main.js"></script>
+  </body>
+</html>

@@ -2302,3 +2302,62 @@ button,
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
    }
+
+
+   #half body,
+#half html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+#half.container {
+    display: flex;
+    height: 100%;
+}
+
+#half.text {
+  flex: 2;
+}
+#half.image {
+  flex: 3;
+}
+
+#half.image img {
+    max-width: 100%;
+    height: auto;
+    padding: 10px
+}
+
+.text-box {
+  background-color: #F8D3C6; /* Background color */
+  padding: 20px; /* Padding around the text */
+  border-radius: 20px; /* Optional: border radius for rounded corners */
+  height: auto;
+}
+
+#halfvid {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+}
+
+#video-container {
+  flex: 3;
+}
+
+#text-container {
+  flex: 1;
+  padding: 20px;
+  height: auto
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+  #halfvid {
+    flex-direction: column;
+  }
+
+  #video-container, #text-container {
+    flex: none;
+  }
+}
