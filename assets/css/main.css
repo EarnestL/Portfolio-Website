@@ -2327,12 +2327,28 @@ button,
     height: auto;
     padding: 10px
 }
+@media (max-width: 768px) {
+  #half.container {
+    flex-direction: column;
+  }
 
-.text-box {
+  #half.text, #half.image {
+    flex: none;
+  }
+}
+
+#text-box {
   background-color: #F8D3C6; /* Background color */
   padding: 20px; /* Padding around the text */
   border-radius: 20px; /* Optional: border radius for rounded corners */
   height: auto;
+  width: 30%
+}
+@media (max-width: 700px) {
+  #text-box {
+    flex-direction: column;
+    width: 100%
+  }
 }
 
 #halfvid {
